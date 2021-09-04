@@ -108,7 +108,7 @@ def create_css(states, columns, rows)
         contents.append("@keyframes kf#{key} {")
         for i in 0...states.size do
             percent = (i * 100 / (states.size - 1)).round()
-            contents.append("    #{percent}% { transform: scale(#{states[i][key]}); }")
+            contents.append("    #{percent}% { transform: scale(#{(states[i][key])**2}); }")
         end
         contents.append("}")
         contents.append("")
