@@ -140,6 +140,27 @@ def create_css(states, columns, rows)
     end
 end
 
+def create_gif(states, columns, rows, radius, duration)
+    puts states
+    newGif = ImageList.new
+    newGif.ticks_per_second = 60
+    width = columns * radius * 2
+    height = rows * radius * 2
+    keys = states[0].keys
+    keys.each do |key|
+        indeces = split_index(key, columns, rows)
+        newFrame = Image.new(width, height)
+        gc = Magick::Draw.new
+        gc.fill_opacity(1)
+        gc.fill('red')
+        gc.circle(32,32, 16,32)
+        gc.draw(newFrame)
+        newGif.push(newFrame)
+        newGif.cur_image.delay = 2
+    end
+    # newGif.write('testing.gif')
+end
+
 if __FILE__ == $0
     puts 'How many columns in the dot matrix? '
     columns = gets
@@ -149,34 +170,35 @@ if __FILE__ == $0
     rows = gets
     rows = rows.strip.to_i
     states = []
+    create_gif([solid_state(16, 16), process_image("k-logo.png", 16, 16), process_image("d-logo.png", 16, 16), process_image("f-logo.png", 16, 16), solid_state(16, 16)], 16, 16, 4, 5)
 
-    loop do
-        puts ''
-        puts 'Insert a file path to an image, "!blank" for a blank state, or "!solid" for a solid state'
-        command = gets
-        command.strip!
-        if (command == '!blank')
-            states.append(solid_state(columns, rows))
-        elsif (command == '!solid')
-            states.append(solid_state(columns, rows, 1))
-        elsif (command == "q")
-            break
-        else
-            begin
-                filepath = Pathname.new(command)
-                if File.file?(filepath)
-                    states.append(process_image(command, columns, rows))
-                end
-            end
-        end
-    end
-    p states
-    create_css(states, columns, rows)
+    # loop do
+    #     puts ''
+    #     puts 'Insert a file path to an image, "!blank" for a blank state, or "!solid" for a solid state'
+    #     command = gets
+    #     command.strip!
+    #     if (command == '!blank')
+    #         states.append(solid_state(columns, rows))
+    #     elsif (command == '!solid')
+    #         states.append(solid_state(columns, rows, 1))
+    #     elsif (command == "q")
+    #         break
+    #     else
+    #         begin
+    #             filepath = Pathname.new(command)
+    #             if File.file?(filepath)
+    #                 states.append(process_image(command, columns, rows))
+    #             end
+    #         end
+    #     end
+    # end
+    # p states
+    # create_css(states, columns, rows)
     
     # process_image("logotest.png", 16, 16)
     # p blank_state(16, 16)
     if false
-        create_css([solid_state(16, 16), process_image("k-logo.png", 16, 16), process_image("d-logo.png", 16, 16), process_image("f-logo.png", 16, 16), solid_state(16, 16)], 16, 16)
+        # create_css([solid_state(16, 16), process_image("k-logo.png", 16, 16), process_image("d-logo.png", 16, 16), process_image("f-logo.png", 16, 16), solid_state(16, 16)], 16, 16)
     end
     # join_states([process_image("logotest.png", 16, 16), process_image("logotest2.png", 16, 16), blank_state(16, 16)])
 end

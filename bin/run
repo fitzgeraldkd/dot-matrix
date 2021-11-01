@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/environment'
+
+WHITE = {red: 255, green: 255, blue: 255}
+BLACK = {red: 0, green: 0, blue: 0}
+
+my_animation = Animation.new(16, 16, WHITE)
+my_animation.add_keyframe('./assets/k-logo.png')
+my_animation.add_keyframe('./assets/d-logo.png')
+my_animation.add_keyframe('./assets/f-logo.png')
+
+my_animation.process_keyframes
+
+my_animation.render_gif(16, 1, 1)
+
+p my_animation
