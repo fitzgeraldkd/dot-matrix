@@ -1,4 +1,4 @@
-class Pixel
+class Dot
   attr_reader(:x, :y)
 
   def initialize(orig_color, x, y)

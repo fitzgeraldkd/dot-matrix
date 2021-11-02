@@ -1,8 +1,9 @@
 class Animation
-  def initialize(columns, rows, bg_color)
+  def initialize(columns, rows, bg_color, fps=15)
     @columns = columns
     @rows = rows
     @bg_color = bg_color
+    @fps = fps
     @keyframes = []
   end
 
@@ -26,24 +27,74 @@ class Animation
     image
   end
 
+  def average_colors(color_start, color_end, weight=0.5)
+    {
+      red: color_start.red * (1 - weight) + color_end.red * weight,
+      green: color_start.green * (1 - weight) + color_end.green * weight,
+      blue: color_start.blue * (1 - weight) + color_end.blue * weight
+      # red: (color_start.red + color_end.red) / 2,
+      # green: (color_start.green + color_end.green) / 2,
+      # blue: (color_start.blue + color_end.blue) / 2
+    }
+  end
+
+  def interpolate_frames(frame_start, frame_end, transition_time)
+    frame_count = 0
+    frame_duration = 100.0 / @fps # TODO: duplicated calc here
+    frames = []
+    while frame_count < transition_time * 100
+      frame = Image.new(@columns, @rows)
+      (0..@columns-1).each do |x|
+        (0..@rows-1).each do |y|
+          pixel_start = frame_start.get_pixel(x, y)
+          pixel_end = frame_end.get_pixel(x, y)
+          new_color = average_colors(pixel_start, pixel_end, frame_count / (transition_time * 100))
+          pixel = Pixel.new(new_color[:red], new_color[:green], new_color[:blue])
+          frame.pixel_color(x, y, pixel)
+        end
+      end
+      frames << frame
+      # frame.write("./output/frame#{frame_count}.png") # TODO: DELETE AT HIGHER FRAMERATES
+      frame_count += frame_duration
+    end
+    frames
+
+    # # single frame halfway between keyframes
+    # frame = Image.new(@columns, @rows)
+    # (0..@columns-1).each do |x|
+    #   (0..@rows-1).each do |y|
+    #     pixel_start = frame_start.get_pixel(x, y)
+    #     pixel_end = frame_end.get_pixel(x, y)
+    #     new_color = average_colors(pixel_start, pixel_end)
+    #     pixel = Pixel.new(new_color[:red], new_color[:green], new_color[:blue])
+    #     frame.pixel_color(x, y, pixel)
+    #   end
+    # end
+    # frame
+  end
+
   def render_gif(pixel_size, hold_time, transition_time)
     gif = ImageList.new
     gif.ticks_per_second = 60
-    @keyframes.each do |keyframe|
-      # frame = Image.new(@columns * pixel_size, @rows * pixel_size)
-      # gc = Magick::Draw.new
-      # # gc.fill_opacity(1)
-      # # gc.fill('black')
-      # keyframe.pixels.each do |pixel|
-      #   origin_x = (pixel.x + 0.5) * pixel_size
-      #   origin_y = (pixel.y + 0.5) * pixel_size
-      #   gc.circle(origin_x, origin_y, origin_x + pixel_size / 2 * (1 - pixel.relative_luminance), origin_y)
-      # end
-      # gc.draw(frame)
-      # gif.push(frame)
+    @keyframes.each_with_index do |keyframe, index|
+      next_index = index == @keyframes.length - 1 ? 0 : index + 1
       gif.push(render_frame(pixel_size, keyframe))
-      # TODO: update to have variable delay
-      gif.cur_image.delay = 60
+      gif.cur_image.delay = 100 * hold_time
+
+      transition_frames = interpolate_frames(keyframe, @keyframes[next_index], transition_time)
+      transition_frames.each do |image|
+        frame = Keyframe.new(image)
+        frame.process_image(@columns, @rows)
+        gif << render_frame(pixel_size, frame)
+        gif.cur_image.delay = 100.0 / @fps # TODO: duplicated calc here
+      end
+
+      # # single frame halfway between keyframes
+      # image = interpolate_frames(keyframe, @keyframes[next_index], transition_time)
+      # frame = Keyframe.new(image)
+      # frame.process_image(@columns, @rows)
+      # gif.push(render_frame(pixel_size, frame))
+      # gif.cur_image.delay = 100
     end
     gif.write('testing2.gif')
   end

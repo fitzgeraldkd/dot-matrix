@@ -14,4 +14,4 @@ my_animation.process_keyframes
 
 my_animation.render_gif(16, 1, 1)
 
-p my_animation
+# p my_animation
