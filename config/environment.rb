@@ -1,4 +1,4 @@
-require 'pathname'
+require 'date'
 require 'rmagick'
 include Magick
 

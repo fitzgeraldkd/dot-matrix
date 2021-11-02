@@ -32,9 +32,6 @@ class Animation
       red: color_start.red * (1 - weight) + color_end.red * weight,
       green: color_start.green * (1 - weight) + color_end.green * weight,
       blue: color_start.blue * (1 - weight) + color_end.blue * weight
-      # red: (color_start.red + color_end.red) / 2,
-      # green: (color_start.green + color_end.green) / 2,
-      # blue: (color_start.blue + color_end.blue) / 2
     }
   end
 
@@ -54,23 +51,9 @@ class Animation
         end
       end
       frames << frame
-      # frame.write("./output/frame#{frame_count}.png") # TODO: DELETE AT HIGHER FRAMERATES
       frame_count += frame_duration
     end
     frames
-
-    # # single frame halfway between keyframes
-    # frame = Image.new(@columns, @rows)
-    # (0..@columns-1).each do |x|
-    #   (0..@rows-1).each do |y|
-    #     pixel_start = frame_start.get_pixel(x, y)
-    #     pixel_end = frame_end.get_pixel(x, y)
-    #     new_color = average_colors(pixel_start, pixel_end)
-    #     pixel = Pixel.new(new_color[:red], new_color[:green], new_color[:blue])
-    #     frame.pixel_color(x, y, pixel)
-    #   end
-    # end
-    # frame
   end
 
   def render_gif(pixel_size, hold_time, transition_time)
@@ -88,14 +71,8 @@ class Animation
         gif << render_frame(pixel_size, frame)
         gif.cur_image.delay = 100.0 / @fps # TODO: duplicated calc here
       end
-
-      # # single frame halfway between keyframes
-      # image = interpolate_frames(keyframe, @keyframes[next_index], transition_time)
-      # frame = Keyframe.new(image)
-      # frame.process_image(@columns, @rows)
-      # gif.push(render_frame(pixel_size, frame))
-      # gif.cur_image.delay = 100
     end
-    gif.write('testing2.gif')
+    filename = DateTime.now.strftime("%Y%m%d%H%M%S")
+    gif.write("./output/#{filename}.gif")
   end
 end
