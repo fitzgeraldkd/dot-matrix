@@ -5,11 +5,21 @@ require_relative '../config/environment'
 WHITE = {red: 255, green: 255, blue: 255}
 BLACK = {red: 0, green: 0, blue: 0}
 
-my_animation = Animation.new(16, 16, WHITE)
+my_animation = Animation.new(16, 16, 'white', 'black', 3)
 my_animation.add_keyframe('./assets/k-logo.png')
 my_animation.add_keyframe('./assets/d-logo.png')
 my_animation.add_keyframe('./assets/f-logo.png')
 
+# my_animation = Animation.new(100, 150, 'white', 'black', 1)
+# my_animation.add_keyframe('./assets/dog-pumpkin.jpg')
+
+# my_animation = Animation.new(100, 125, WHITE, 1)
+# my_animation.add_keyframe('./assets/paris.jpg')
+
+# my_animation = Animation.new(100, 42, 'white', 'black', 1)
+# my_animation.add_keyframe('./assets/dot-matrix-cover2.png')
+
 my_animation.process_keyframes
 
 my_animation.render_gif(16, 1, 1)
+# my_animation.render_gif(10, 1, 1)

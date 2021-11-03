@@ -1,4 +1,4 @@
-class Keyframe
+class Frame
   attr_reader :pixels
 
   def initialize(image)
@@ -6,10 +6,10 @@ class Keyframe
     @pixels = []
   end
 
-  def process_image(columns, rows)
-    (0..columns-1).each do |x|
-      (0..rows-1).each do |y|
-        @pixels.push(Dot.new(get_pixel(x, y), x, y))
+  def process_image
+    (0..@image.columns-1).each do |x|
+      (0..@image.rows-1).each do |y|
+        @pixels << Dot.new(get_pixel(x, y), x, y)
       end
     end
   end

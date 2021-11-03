@@ -1,8 +1,8 @@
 class Dot
   attr_reader(:x, :y)
 
-  def initialize(orig_color, x, y)
-    @orig_color = orig_color
+  def initialize(pixel, x, y)
+    @pixel = pixel
     @x = x
     @y = y
   end
@@ -13,9 +13,9 @@ class Dot
   end
 
   def relative_luminance
-    r = s_rgb(@orig_color.red)
-    g = s_rgb(@orig_color.green)
-    b = s_rgb(@orig_color.blue)
+    r = s_rgb(@pixel.red)
+    g = s_rgb(@pixel.green)
+    b = s_rgb(@pixel.blue)
     (0.2126 * r + 0.7152 * g + 0.0722 * b).round(2)
   end
 end
