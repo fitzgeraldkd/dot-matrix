@@ -40,7 +40,7 @@ There are a number of options for running this command as well, and they can be 
 $ bin/run render_gif --subfolder=demo --columns=32 --rows=10 --bg_color=chocolate --fg_color="mint cream" --fps=10 --dot_size=10
 ```
 
-The any of the options can be left blank. To see the default values, run the `help` command and it will display a list of options, what each option's purpose is, and the default value.
+Any of the options can be left blank. To see the default values, run the `help` command and it will display a list of options, what each option's purpose is, and the default value.
 
 ## Demo
 
