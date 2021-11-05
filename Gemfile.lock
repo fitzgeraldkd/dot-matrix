@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rmagick (4.2.3)
+    thor (1.1.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  rmagick (~> 4.2.0)
+  thor
+
+BUNDLED WITH
+   2.2.30

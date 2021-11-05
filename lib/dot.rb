@@ -16,6 +16,6 @@ class Dot
     r = s_rgb(@pixel.red)
     g = s_rgb(@pixel.green)
     b = s_rgb(@pixel.blue)
-    (0.2126 * r + 0.7152 * g + 0.0722 * b).round(2)
+    0.2126 * r + 0.7152 * g + 0.0722 * b
   end
 end
