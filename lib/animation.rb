@@ -53,7 +53,7 @@ class Animation
     @keyframes.each_with_index do |keyframe, index|
       next_index = index == @keyframes.length - 1 ? 0 : index + 1
       add_gif_frame(keyframe)
-      interpolate_frames(keyframe, @keyframes[next_index], transition_time)
+      interpolate_frames(keyframe, @keyframes[next_index], transition_time) unless @keyframes.length <= 1
     end
     filename = DateTime.now.strftime("%Y%m%d%H%M%S")
     @gif.write("./output/#{filename}.gif")
