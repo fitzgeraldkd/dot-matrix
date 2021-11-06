@@ -24,15 +24,23 @@ class DotMatrixCLI < Thor
          :default => 15
   option :dot_size,
          :type => :numeric,
-         :desc => "Max diameter of each dot in the matrix in pixels",
+         :desc => "Max diameter of each dot in the matrix, in pixels",
          :default => 16
+  option :transition_time,
+         :type => :numeric,
+         :desc => "Amount of time it takes to transition between keyframes, in seconds",
+         :default => 1
+  option :hold_time,
+         :type => :numeric,
+         :desc => "Amount of time the animation will pause on a keyframe, in seconds. If set to 0 there will be no additional delay on keyframes compared to transitional frames.",
+         :default => 1
   
   desc "render_gif", "Render a GIF"
   long_desc <<-LONGDESC
     'render_gif' will take all of the images in a selected folder and create a dot matrix animation using them.
     The images will be sorted and processed by filename, so if a specific order is needed you can set the filenames to determine the order.
 
-    See above for the list of available options. Note that the
+    See above for the list of available options.
   LONGDESC
   def render_gif
     if options[:subfolder]
@@ -70,8 +78,8 @@ class DotMatrixCLI < Thor
       puts "Rendering the GIF, this may take some time..."
       animation_path = animation.render_gif(
         options[:dot_size],
-        1,
-        1
+        options[:hold_time],
+        options[:transition_time]
       )
       puts "Animation saved to #{animation_path}"
     end

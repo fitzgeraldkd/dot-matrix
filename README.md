@@ -37,10 +37,10 @@ $ bin/run render_gif
 There are a number of options for running this command as well, and they can be overwritten like so:
 
 ```bash
-$ bin/run render_gif --subfolder=demo --columns=32 --rows=10 --bg_color=chocolate --fg_color="mint cream" --fps=10 --dot_size=10
+$ bin/run render_gif --subfolder=demo --columns=32 --rows=10 --bg_color=chocolate --fg_color="mint cream" --fps=10 --dot_size=10 --hold_time=0.5 --transition_time=3
 ```
 
-Any of the options can be left blank. To see the default values, run the `help` command and it will display a list of options, what each option's purpose is, and the default value.
+Any of the options can be left out to use the default. To see the default values, run the `help` command and it will display a list of options, what each option's purpose is, and the default value.
 
 ## Demo
 

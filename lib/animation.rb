@@ -21,14 +21,14 @@ class Animation
     }
   end
 
-  def add_gif_frame(frame)
+  def add_gif_frame(frame, delay)
     @gif << frame.render(@pixel_size, @bg_color, @fg_color, @dot_size)
-    @gif.cur_image.delay = 100.0 / @fps
+    @gif.cur_image.delay = delay
   end
 
   def interpolate_frames(frame_start, frame_end, transition_time)
-    current_time = 0.0
-    frame_duration = 100.0 / @fps # TODO: duplicated calc here
+    frame_duration = 100.0 / @fps
+    current_time = frame_duration
     while current_time < transition_time * 100
       frame = Image.new(@columns, @rows)
       (0..@columns-1).each do |x|
@@ -41,18 +41,19 @@ class Animation
           frame.pixel_color(x, y, pixel)
         end
       end
-      add_gif_frame(Frame.new(frame))
+      add_gif_frame(Frame.new(frame), frame_duration)
       current_time += frame_duration
     end
   end
 
   def render_gif(pixel_size, hold_time, transition_time)
+    hold_time = hold_time == 0 ? 1.0/@fps : hold_time
     @gif = ImageList.new
     @gif.ticks_per_second = 100
     @pixel_size = pixel_size
     @keyframes.each_with_index do |keyframe, index|
       next_index = index == @keyframes.length - 1 ? 0 : index + 1
-      add_gif_frame(keyframe)
+      add_gif_frame(keyframe, hold_time * 100)
       interpolate_frames(keyframe, @keyframes[next_index], transition_time) unless @keyframes.length <= 1
     end
     filename = DateTime.now.strftime("%Y%m%d%H%M%S")
