@@ -1,12 +1,12 @@
 class Animation
-  def initialize(columns, rows, bg_color, fg_color, fps=15, dot_size = -> (lum) { (1 - lum) ** 2 })
+  def initialize(columns, rows, bg_color, fg_color, fps=15, dot_size_formula)
     @columns = columns
     @rows = rows
     @bg_color = bg_color
     @fg_color = fg_color
     @fps = fps
     @keyframes = []
-    @dot_size = dot_size
+    @dot_size = dot_size_formula
   end
 
   def add_keyframe(image)

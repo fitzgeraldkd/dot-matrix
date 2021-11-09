@@ -5,35 +5,35 @@ class DotMatrixCLI < Thor
   option :columns,
          :type => :numeric,
          :desc => "Number of columns in the resulting dot matrix",
-         :default => 16
+         :default => DEFAULTS[:columns]
   option :rows,
          :type => :numeric,
          :desc => "Number of rows in the resulting dot matrix",
-         :default => 16
+         :default => DEFAULTS[:rows]
   option :bg_color,
          :type => :string,
          :desc => "Background color",
-         :default => "white"
+         :default => DEFAULTS[:bg_color]
   option :fg_color,
          :type => :string,
          :desc => "Foreground color",
-         :default => "black"
+         :default => DEFAULTS[:fg_color]
   option :fps,
          :type => :numeric,
          :desc => "Framerate (an approximate frames per second)",
-         :default => 15
+         :default => DEFAULTS[:fps]
   option :dot_size,
          :type => :numeric,
          :desc => "Max diameter of each dot in the matrix, in pixels",
-         :default => 16
+         :default => DEFAULTS[:dot_size]
   option :transition_time,
          :type => :numeric,
          :desc => "Amount of time it takes to transition between keyframes, in seconds",
-         :default => 1
+         :default => DEFAULTS[:transition_time]
   option :hold_time,
          :type => :numeric,
          :desc => "Amount of time the animation will pause on a keyframe, in seconds. If set to 0 there will be no additional delay on keyframes compared to transitional frames.",
-         :default => 1
+         :default => DEFAULTS[:hold_time]
   
   desc "render_gif", "Render a GIF"
   long_desc <<-LONGDESC
@@ -67,7 +67,8 @@ class DotMatrixCLI < Thor
         options[:rows],
         options[:bg_color],
         options[:fg_color],
-        options[:fps]
+        options[:fps],
+        DOT_SIZE_FORMULA
       )
       puts "The animation will proceed in this order:"
       files.each do |filename|
