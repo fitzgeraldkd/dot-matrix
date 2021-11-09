@@ -42,6 +42,16 @@ $ bin/run render_gif --subfolder=demo --columns=32 --rows=10 --bg_color=chocolat
 
 Any of the options can be left out to use the default. To see the default values, run the `help` command and it will display a list of options, what each option's purpose is, and the default value.
 
+## Option Defaults
+
+The option defaults are saved in the `./config/defaults.rb` file. If an option is not specified when the program is executed, this is where it will pull values from. Any of these can be changed if you have you're own preferred defaults.
+
+In addition, the formula on how to calculate a dot's size based on the pixel's relative luminance is defined here. It uses a lambda function so it can be passed into the class where the calculations are performed. While this isn't able to be overwritten from the command line, it is brought into the `defaults.rb` file to make it easier to access. Here is the default formula:
+
+```ruby
+DOT_SIZE_FORMULA = -> (lum) { (1 - lum) ** 2 }
+```
+
 ## Demo
 
 In the repo there's a folder, `./assets/demo`, that has some sample images. These images act as the keyframes in the animation:
