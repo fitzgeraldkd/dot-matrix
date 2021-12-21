@@ -2,6 +2,8 @@
 
 # Dot Matrix Animator
 
+Check out [this blog post](https://dev.to/fitzgeraldkd/building-a-dot-matrix-animator-4edm) I wrote about this project!
+
 ## Setup
 
 Note that this project utilizes the RMagick gem, which has some pre-requisites. Please follow the instructions in [RMagick's README](https://github.com/rmagick/rmagick#prerequisites) to get these setup. This project currently uses RMagick version 4.2.
